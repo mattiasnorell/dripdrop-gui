@@ -1,0 +1,26 @@
+{
+  "compileOnSave": false, 
+  "compilerOptions": {
+    "baseUrl": "./",
+    "target": "esnext",
+    "allowSyntheticDefaultImports": true,
+    "experimentalDecorators": true,
+    "module": "esnext",
+    // this enables stricter inference for data properties on `this`
+    "strict": true,
+    "jsx": "preserve",
+    
+    "moduleResolution": "node",
+    "strictPropertyInitialization": false,
+    "noImplicitAny": true,
+    "allowUnreachableCode": false,
+    "types": ["node"],
+    "paths": {
+      "_components/*": ["src/components/*"],
+      "_models/*": ["src/models/*"],
+      "_services/*": ["src/services/*"],
+      "_pages/*": ["src/pages/*"],
+    }
+  }
+  
+}

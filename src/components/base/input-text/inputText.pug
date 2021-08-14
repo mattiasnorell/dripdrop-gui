@@ -1,0 +1,14 @@
+div()
+    input(
+        class="border px-2 py-1 rounded w-full" 
+        ref="inputField" 
+        type="text" 
+        :value="value" 
+        :placeholder="placeholder" 
+        @blur="onChange" 
+        v-on:keyup.enter="onChange" 
+        v-if="isEditing || !inline"
+        )
+    span(v-if="inline")
+        span(class="cursor-pointer border-dotted border-b-2 border-gray-200" v-if="!isEditing" @click="edit") {{ value }}
+        span(class="cursor-pointer border-dotted border-b-2 border-gray-200" v-if="!isEditing && usePlaceholderIfEmpty && !value" @click="edit") {{ placeholder }}

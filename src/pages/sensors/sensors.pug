@@ -1,0 +1,13 @@
+layout()
+    div(class="container w-full")
+        div(class="mb-4")
+            h1(class="text-xl font-bold") Sensorer
+
+        div(class="bg-white p-4 rounded-lg")
+            table(class="table table-auto w-full")
+                tbody()
+                    tr(v-for="(valve, index) in valves")
+                        td() Sensor {{ valve }}
+                        td(class="text-right")
+                            span() {{valve + 19}}
+                            span() &deg;

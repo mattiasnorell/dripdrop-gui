@@ -1,0 +1,20 @@
+div(class="flex py-2 w-full")
+    router-link(:to="{name: 'start'}" class="flex-1 border-r border-gray-400 px-4 flex items-center flex-col")
+        span()
+            font-awesome-icon(class="h-4" icon="home")
+        span(class="text-xs") Start
+
+    router-link(:to="{name: 'valvesList'}" class="flex-1 px-4 border-r border-gray-400 flex items-center flex-col")
+        span()
+            font-awesome-icon(class="h-4" icon="faucet")
+        span(class="text-xs") Ventiler
+
+    router-link(:to="{name: 'sensors'}" class="flex-1 px-4 border-r border-gray-400 flex items-center flex-col")
+        span()
+            font-awesome-icon(class="h-4" icon="thermometer-half")
+        span(class="text-xs") Sensorer
+
+    router-link(:to="{name: 'settings'}" class="flex-1 px-4 flex items-center flex-col")
+        span()
+            font-awesome-icon(class="h-4" icon="cog")
+        span(class="text-xs") Inställningar

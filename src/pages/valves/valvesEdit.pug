@@ -1,0 +1,55 @@
+layout()
+    div(class="container w-full")
+        div(class="mb-4")
+            h1(class="text-xl font-bold") Ventil {{ id }}
+
+        div(class="flex mb-4")
+            button(class="flex-1 flex flex-col bg-white shadow-md p-4 rounded-lg mr-4" @click="onTogglePower") 
+                span(class="text-3xl")
+                    font-awesome-icon(icon="power-off")
+                span(class="text-sm mt-1") Sätt på
+
+            button(class="flex-1 flex flex-col bg-white shadow-md p-4 rounded-lg" @click="onSetTimer")
+                span(class="text-3xl")
+                    font-awesome-icon(icon="stopwatch")
+                span(class="text-sm mt-1") Timer
+        
+        div(class="")
+            h3(class="text-lg font-bold mb-1") Schema
+
+            div(class="p-4 rounded-md bg-white")
+                table(class="table table-auto w-full")
+                    thead()
+                        tr()
+                            th(class="text-left") Från 
+                            th(class="text-left") Till 
+                            th(class="text-left") 
+                    tbody()
+                        tr(v-for="(item, index) in schedule")
+                            td(class="py-1") {{ item.fromHour | addZeroToTime}}:{{ item.fromMinute | addZeroToTime}}
+                            td(class="py-1") {{ item.toHour | addZeroToTime}}:{{ item.toMinute | addZeroToTime}}
+                            td(class="py-1 text-right")
+                                button(@click="onRemoveSchedule(index)")
+                                    font-awesome-icon(icon="trash-alt")
+
+                        tr(class="border-t border-gray-500")
+                            td(class="py-2")
+                                span() 
+                                    input(class="border rounded border-gray-500 w-8 p-1" v-model="newSchduleItem.fromHour")
+                                span(class="ml-1 mr-1") :
+                                span() 
+                                    input(class="border rounded border-gray-500 w-8 p-1" v-model="newSchduleItem.fromMinute")
+                                
+                            td(class="py-2")
+                                span() 
+                                    input(class="border rounded border-gray-500 w-8 p-1" v-model="newSchduleItem.toHour")
+                                span(class="ml-1 mr-1") :
+                                span() 
+                                    input(class="border rounded border-gray-500 w-8 p-1" v-model="newSchduleItem.toMinute")
+
+                            td(class="py-2 text-right")
+                                button(@click="onAddSchedule")
+                                    font-awesome-icon(icon="plus")
+
+        div(class="mt-8")
+            button(class="bg-red-800 shadow-md p-4 rounded-lg w-full text-white" @click="onForceOff") Stäng av ventilen
