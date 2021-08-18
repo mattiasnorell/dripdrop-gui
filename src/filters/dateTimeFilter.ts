@@ -1,5 +1,5 @@
 const DateTimeFilter = (input: Date) => {
-  return input.toString().slice(0, 10).replace(/-/g, "-").replace("T", " ");
+  return `${input.toLocaleDateString()} ${input.toLocaleTimeString()}`;
 };
 
 const $dateTimeFilter = DateTimeFilter;

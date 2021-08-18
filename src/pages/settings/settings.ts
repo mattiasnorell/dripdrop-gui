@@ -18,12 +18,20 @@ import { $systemService } from '_services/connectors/systemService';
 export default class Setting extends Vue {
     private apiPath: string | null = '';
     private systemTime: Date = new Date();
+    private systemTimeInterval: any;
 
     public async mounted() {
         this.apiPath = $localStorageRepository.read<string | null>('apiPath');
 
-        const systemTime = await $systemService.getSystemTime();
-        this.systemTime = new Date(systemTime * 1000);
+        this.systemTime = await $systemService.getSystemTime();
+
+        this.systemTimeInterval = setInterval(() => {
+            this.systemTime = new Date(this.systemTime.setSeconds(this.systemTime.getSeconds() + 1));
+        }, 1000);
+    }
+
+    beforeDestroy() {
+        clearInterval(this.systemTimeInterval);
     }
 
     private onApiUrlChange() {
@@ -31,8 +39,6 @@ export default class Setting extends Vue {
     }
 
     private async onSetTime() {
-        await $systemService.setSystemTime(new Date());
-        const systemTime = await $systemService.getSystemTime();
-        this.systemTime = new Date(systemTime * 1000);
+        this.systemTime = await $systemService.setSystemTime(new Date());
     }
 }

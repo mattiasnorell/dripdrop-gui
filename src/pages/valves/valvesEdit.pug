@@ -29,23 +29,21 @@ layout()
                             td(class="py-1") {{ item.fromHour | addZeroToTime}}:{{ item.fromMinute | addZeroToTime}}
                             td(class="py-1") {{ item.toHour | addZeroToTime}}:{{ item.toMinute | addZeroToTime}}
                             td(class="py-1 text-right")
-                                button(@click="onRemoveSchedule(index)")
+                                button(@click="onRemoveSchedule(item)")
                                     font-awesome-icon(icon="trash-alt")
 
                         tr(class="border-t border-gray-500")
                             td(class="py-2")
-                                span() 
-                                    input(class="border rounded border-gray-500 w-8 p-1" v-model="newSchduleItem.fromHour")
-                                span(class="ml-1 mr-1") :
-                                span() 
-                                    input(class="border rounded border-gray-500 w-8 p-1" v-model="newSchduleItem.fromMinute")
+                                div(class="flex")
+                                    input-select(class="p-1" :options="hourValues" @onChange="onUpdateFromHour")
+                                    span(class="ml-1 mr-1") :
+                                    input-select(class="p-1" :options="minuteValues" @onChange="onUpdateFromMinute")
                                 
                             td(class="py-2")
-                                span() 
-                                    input(class="border rounded border-gray-500 w-8 p-1" v-model="newSchduleItem.toHour")
-                                span(class="ml-1 mr-1") :
-                                span() 
-                                    input(class="border rounded border-gray-500 w-8 p-1" v-model="newSchduleItem.toMinute")
+                                div(class="flex")
+                                    input-select(:options="hourValues" @onChange="onUpdateToHour")
+                                    span(class="ml-1 mr-1") :
+                                    input-select(:options="minuteValues" @onChange="onUpdateToMinute")
 
                             td(class="py-2 text-right")
                                 button(@click="onAddSchedule")

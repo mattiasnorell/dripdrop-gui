@@ -8,6 +8,7 @@ import { IScheduleItem } from 'src/interfaces/IScheduleItem';
 import { $timersService } from '_services/connectors/timersService';
 import { $schedulesService } from '_services/connectors/schedulesService';
 import { $valveService } from '_services/connectors/valveService';
+import { SelectOption, InputSelect } from '_components/base/input-select/inputSelect';
 
 @Component({
     name: 'ValvesEdit',
@@ -15,7 +16,8 @@ import { $valveService } from '_services/connectors/valveService';
     components: {
         Layout,
         FontAwesomeIcon,
-        DropIcon
+        DropIcon,
+        InputSelect
     }
 })
 export default class ValvesEdit extends Vue {
@@ -23,6 +25,9 @@ export default class ValvesEdit extends Vue {
     public id: number;
 
     private schedule: IScheduleItem[] = [];
+
+    private hourValues: SelectOption<number>[] = [];
+    private minuteValues: SelectOption<number>[] = [];
 
     private timerInterval: any = null;
     private timerRemaining: string = '';
@@ -34,6 +39,17 @@ export default class ValvesEdit extends Vue {
     };
 
     public async mounted() {
+
+        for (let i = 0; i < 24; i++) {
+            const title: string = i < 10 ? '0' + i.toString() : i.toString();
+            this.hourValues.push(new SelectOption<number>(title, i));
+        }
+
+        for (let i = 0; i < 60; i++) {
+            const title: string = i < 10 ? '0' + i.toString() : i.toString();
+            this.minuteValues.push(new SelectOption<number>(title, i));
+        }
+
         this.loadSchedule();
         const timer = await this.loadTimer();
 
@@ -64,11 +80,18 @@ export default class ValvesEdit extends Vue {
     private async loadSchedule(): Promise<void> {
         const result = await $schedulesService.getSchedule(this.id);
         const scheduleItems = result.data.filter((item: any) => item.valveId === this.id);
-        this.schedule.push(scheduleItems);
+        this.schedule = scheduleItems;
     }
 
     private async onTogglePower(): Promise<void> {
+        /*const state = await $valveService.state(this.id);
+        console.log(state)
+
+        if (state === 0) {
+            await $valveService.valveOff(this.id);
+        } else {*/
         await $valveService.valveOn(this.id);
+        //}
     }
 
     private async onSetTimer(): Promise<void> {
@@ -83,8 +106,14 @@ export default class ValvesEdit extends Vue {
         await $timersService.stopTimer(this.id);
     }
 
-    private onRemoveSchedule(index: number): void {
-        this.schedule.splice(index, 1);
+    private async onRemoveSchedule(item: IScheduleItem): Promise<void> {
+        console.log(item)
+        if (!item.scheduleId && item.scheduleId != 0) {
+            return;
+        }
+
+        await $schedulesService.deleteSchedule(item.scheduleId);
+        await this.loadSchedule();
     }
 
     private async onAddSchedule(): Promise<void> {
@@ -94,9 +123,7 @@ export default class ValvesEdit extends Vue {
             return;
         }
 
-        const result = await $schedulesService.updateSchedule(this.id, this.newSchduleItem);
-
-        this.schedule.push(this.newSchduleItem);
+        await $schedulesService.updateSchedule(this.id, this.newSchduleItem);
 
         this.newSchduleItem = {
             fromHour: 0,
@@ -104,9 +131,16 @@ export default class ValvesEdit extends Vue {
             toHour: 0,
             toMinute: 0
         };
+
+        this.loadSchedule();
     }
 
     private async onForceOff(): Promise<void> {
-        await $valveService.valveOn(this.id);
+        await $valveService.valveOff(this.id);
     }
+
+    private onUpdateFromHour(input: number) { this.newSchduleItem.fromHour = input; }
+    private onUpdateFromMinute(input: number) { this.newSchduleItem.fromMinute = input; }
+    private onUpdateToHour(input: number) { this.newSchduleItem.toHour = input; }
+    private onUpdateToMinute(input: number) { this.newSchduleItem.toMinute = input; }
 }

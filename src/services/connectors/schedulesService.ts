@@ -11,7 +11,7 @@ class SchedulesService {
         }, 3000);
 
         return axios
-            .get(`${url}/schedule/list`, { cancelToken: timeout.token })
+            .get(`${url}/schedule/list`, { responseType: 'json', cancelToken: timeout.token })
             .then((response) => {
                 return response;
             })
@@ -28,7 +28,7 @@ class SchedulesService {
         }, 3000);
 
         return axios
-            .post(`${url}/schedule/add`, { valveId: valveId + 1, ...scheduleItem, cancelToken: timeout.token })
+            .post(`${url}/schedule/add`, { valveId: valveId, ...scheduleItem, cancelToken: timeout.token })
             .then((response) => {
                 return true;
             })
@@ -37,7 +37,7 @@ class SchedulesService {
             });
     }
 
-    public deleteSchedule(valveId: number, scheduleItem: IScheduleItem): Promise<boolean> {
+    public deleteSchedule(scheduleId: number): Promise<boolean> {
         const url = $localStorageRepository.read<string>('apiPath') ?? 'http://dripdrop.local';
         const timeout = axios.CancelToken.source();
         setTimeout(() => {
@@ -45,7 +45,7 @@ class SchedulesService {
         }, 3000);
 
         return axios
-            .post(`${url}/schedule/delete`, { valveId: valveId + 1, ...scheduleItem, cancelToken: timeout.token })
+            .post(`${url}/schedule/delete`, { scheduleId: scheduleId, cancelToken: timeout.token })
             .then((response) => {
                 return true;
             })

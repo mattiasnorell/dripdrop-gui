@@ -19,7 +19,7 @@ class SystemService {
             });
     }
 
-    public getSystemTime(): Promise<any> {
+    public getSystemTime(): Promise<Date> {
         const url = $localStorageRepository.read<string>('apiPath') ?? 'http://dripdrop.local';
         const timeout = axios.CancelToken.source();
         setTimeout(() => {
@@ -29,14 +29,14 @@ class SystemService {
         return axios
             .get(`${url}/system/time`, { cancelToken: timeout.token })
             .then((response) => {
-                return response.data;
+                return new Date(response.data * 1000);
             })
             .catch((error) => {
-                return false;
+                return new Date(0);
             });
     }
 
-    public setSystemTime(date: Date): Promise<any> {
+    public setSystemTime(date: Date): Promise<Date> {
         const url = $localStorageRepository.read<string>('apiPath') ?? 'http://dripdrop.local';
         const timeout = axios.CancelToken.source();
         setTimeout(() => {
@@ -45,19 +45,19 @@ class SystemService {
 
         return axios
             .post(`${url}/system/time`, {
-                year: date.getUTCFullYear,
-                month: date.getUTCMonth,
-                day: date.getUTCDay,
-                hour: date.getUTCHours,
-                minute: date.getUTCMinutes,
-                second: date.getUTCSeconds,
+                year: date.getUTCFullYear(),
+                month: date.getUTCMonth() + 1,
+                day: date.getUTCDate(),
+                hour: date.getUTCHours(),
+                minute: date.getUTCMinutes(),
+                second: date.getUTCSeconds(),
                 cancelToken: timeout.token
             })
             .then((response) => {
-                return response.data;
+                return new Date(response.data * 1000);
             })
             .catch((error) => {
-                return false;
+                return new Date(0);
             });
     }
 }
