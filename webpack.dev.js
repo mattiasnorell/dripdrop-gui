@@ -8,7 +8,7 @@ const tailwindConfig = require('./tailwind.config.js');
 
 module.exports = {
   entry: {
-    couchpotato: path.join(__dirname, 'src', 'index.ts')
+    dripdrop: path.join(__dirname, 'src', 'index.ts')
   },
   output: {
     filename: '[name].js',
@@ -27,7 +27,7 @@ module.exports = {
     rules: [
       {
         test: /\.ts?$/,
-        use: 'awesome-typescript-loader',
+        use: 'ts-loader',
         exclude: /node_modules/
       },
       {

@@ -11,7 +11,7 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPl
 
 module.exports = {
   entry: {
-    couchpotato: path.join(__dirname, 'src', 'index.ts')
+    dripdrop: path.join(__dirname, 'src', 'index.ts')
   },
   output: {
     filename: '[name][hash].js',
@@ -22,7 +22,7 @@ module.exports = {
     rules: [
       {
         test: /\.ts?$/,
-        use: 'awesome-typescript-loader',
+        use: 'ts-loader',
         exclude: /node_modules/
       },
       {
@@ -50,17 +50,7 @@ module.exports = {
               sourceMap: true,
               plugins: [
                 require('tailwindcss')(tailwindConfig),
-                require('@fullhuman/postcss-purgecss')({
-                  content: ['**/*.html', 'src/**/*.pug', 'src/components/**/*.ts'],
-                  // Whitelist patterns array lines
-                  // 0: Classes added by vue router
-                  // 1: All functional CSS starting with "tp-"
-                  // 2: Font Awesome icons default sizing overrrides
-                  // https://medium.com/@kyis/vue-tailwind-purgecss-the-right-way-c70d04461475
-                  safelist: ['flex-row','h-full','router-link-exact-active','active-class','gu-transit', 'gu-mirror', 'gu-hide', 'gu-unselectable'],
-                  allowlistPatterns: [/w-+/g],
-                  defaultExtractor: (content) => content.match(/[\w-/:]+(?<!:)/g) || []
-                })
+               
               ]
             }
           }
