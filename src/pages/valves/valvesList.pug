@@ -4,6 +4,12 @@ layout()
             h1(class="text-xl font-bold") Ventiler
 
         div(class="bg-white p-4 rounded-lg")
+            div(v-if="isPending")
+                span()
+                    font-awesome-icon(icon="spinner" size="s" spin)
+                span(class="ml-1 text-sm") Laddar
+
+
             table(class="table table-auto w-full")
                 tbody()
                     tr(v-for="(valve, index) in valves")
