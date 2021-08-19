@@ -7,7 +7,7 @@ layout()
             table(class="table table-auto w-full")
                 tbody()
                     tr(v-for="(valve, index) in valves")
-                        td() Sensor {{ valve }}
-                        td(class="text-right")
+                        td(class="border-b border-gray-200 last:border-none py-2")  Sensor {{ valve }}
+                        td(class="border-b border-gray-200 last:border-none py-2 text-right") 
                             span() {{valve + 19}}
                             span() &deg;

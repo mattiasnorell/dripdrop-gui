@@ -9,6 +9,7 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import {
   faCog, faFaucet, faHome, faPlus, faPowerOff, faStopwatch, faThermometerHalf, faTrashAlt
 } from '@fortawesome/free-solid-svg-icons';
+import buildContainer from './inversify.config';
 
 Vue.use($filters);
 Vue.use(VueRouter);
@@ -27,6 +28,8 @@ library.add(
 const appElement: HTMLElement | null = document.getElementById('app');
 
 if (appElement) {
+  buildContainer();
+  
   new Vue({
     router
   }).$mount(appElement);

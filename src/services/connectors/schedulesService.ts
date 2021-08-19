@@ -1,14 +1,16 @@
 import axios, { CancelToken } from 'axios';
+import { injectable } from 'inversify-props';
 import { IScheduleItem } from 'src/interfaces/IScheduleItem';
 import { $localStorageRepository } from '_services/repositories/localStorageRepository';
 
-interface ISchedulesService{
+export interface ISchedulesService{
     getSchedule(valveId: number): Promise<any>;
     updateSchedule(valveId: number, scheduleItem: IScheduleItem): Promise<boolean>;
     deleteSchedule(scheduleId: number): Promise<boolean>;
 }
 
-class SchedulesService implements ISchedulesService{
+@injectable()
+export class SchedulesService implements ISchedulesService{
     public getSchedule(valveId: number): Promise<any> {
         const url = $localStorageRepository.read<string>('apiPath') ?? 'http://dripdrop.local';
         const timeout = axios.CancelToken.source();
@@ -60,6 +62,3 @@ class SchedulesService implements ISchedulesService{
             });
     }
 }
-
-const $schedulesService = new SchedulesService();
-export { $schedulesService };

@@ -1,13 +1,14 @@
 import Vue from 'vue';
 import Component from 'vue-class-component';
 import { Prop } from 'vue-property-decorator';
+import { inject } from 'inversify-props';
 import { Layout } from '_components/base/layout/layout';
 import { DropIcon } from '_components/drop-icon/dropIcon';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { IScheduleItem } from 'src/interfaces/IScheduleItem';
 import { $timersService } from '_services/connectors/timersService';
-import { $schedulesService } from '_services/connectors/schedulesService';
-import { $valveService } from '_services/connectors/valveService';
+import { ISchedulesService } from '_services/connectors/schedulesService';
+import { IValveService } from '_services/connectors/valveService';
 import { SelectOption, InputSelect } from '_components/base/input-select/inputSelect';
 
 @Component({
@@ -21,6 +22,12 @@ import { SelectOption, InputSelect } from '_components/base/input-select/inputSe
     }
 })
 export default class ValvesEdit extends Vue {
+    @inject()
+    private _valveService: IValveService;
+
+    @inject()
+    private _schedulesService: ISchedulesService;
+
     @Prop({ type: Number, default: -1 })
     public id: number;
 
@@ -78,7 +85,7 @@ export default class ValvesEdit extends Vue {
     }
 
     private async loadSchedule(): Promise<void> {
-        const result = await $schedulesService.getSchedule(this.id);
+        const result = await this._schedulesService.getSchedule(this.id);
         const scheduleItems = result.data.filter((item: any) => item.valveId === this.id);
         this.schedule = scheduleItems;
     }
@@ -90,7 +97,7 @@ export default class ValvesEdit extends Vue {
         if (state === 0) {
             await $valveService.valveOff(this.id);
         } else {*/
-        await $valveService.valveOn(this.id);
+        await this._valveService.valveOn(this.id);
         //}
     }
 
@@ -112,7 +119,7 @@ export default class ValvesEdit extends Vue {
             return;
         }
 
-        await $schedulesService.deleteSchedule(item.scheduleId);
+        await this._schedulesService.deleteSchedule(item.scheduleId);
         await this.loadSchedule();
     }
 
@@ -123,7 +130,7 @@ export default class ValvesEdit extends Vue {
             return;
         }
 
-        await $schedulesService.updateSchedule(this.id, this.newSchduleItem);
+        await this._schedulesService.updateSchedule(this.id, this.newSchduleItem);
 
         this.newSchduleItem = {
             fromHour: 0,
@@ -136,7 +143,7 @@ export default class ValvesEdit extends Vue {
     }
 
     private async onForceOff(): Promise<void> {
-        await $valveService.valveOff(this.id);
+        await this._valveService.valveOff(this.id);
     }
 
     private onUpdateFromHour(input: number) { this.newSchduleItem.fromHour = input; }
