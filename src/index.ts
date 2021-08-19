@@ -7,7 +7,7 @@ import { router } from './routes/initRoutes';
 import { library } from '@fortawesome/fontawesome-svg-core';
 
 import {
-  faCog, faFaucet, faHome, faPlus, faPowerOff, faStopwatch, faThermometerHalf, faTrashAlt
+  faCog, faFaucet, faHome, faPlus, faPowerOff, faStopwatch, faThermometerHalf, faTrashAlt, faSpinner
 } from '@fortawesome/free-solid-svg-icons';
 
 Vue.use($filters);
@@ -21,7 +21,8 @@ library.add(
   faTrashAlt,
   faPlus,
   faThermometerHalf,
-  faFaucet
+  faFaucet,
+  faSpinner
 );
 
 const appElement: HTMLElement | null = document.getElementById('app');

@@ -1,8 +1,9 @@
 import axios, { CancelToken } from 'axios';
 import { $localStorageRepository } from '_services/repositories/localStorageRepository';
+import { IValve } from 'src/interfaces/IValve';
 
 class ValveService {
-    public state(valveId: number): Promise<any> {
+    public async state(valveId: number): Promise<any> {
         const url = $localStorageRepository.read<string>('apiPath') ?? 'http://dripdrop.local';
         const timeout = axios.CancelToken.source();
         setTimeout(() => {
@@ -10,7 +11,7 @@ class ValveService {
         }, 3000);
 
         return axios
-            .get(`${url}/valve/state?valveId=${valveId}`, {cancelToken: timeout.token })
+            .get(`${url}/valve/state?valveId=${valveId}`, { cancelToken: timeout.token })
             .then((response: any) => {
                 return response.data;
             })
@@ -19,7 +20,7 @@ class ValveService {
             });
     }
 
-    public valveOn(valveId: number): Promise<boolean> {
+    public async valveOn(valveId: number): Promise<boolean> {
         const url = $localStorageRepository.read<string>('apiPath') ?? 'http://dripdrop.local';
         const timeout = axios.CancelToken.source();
         setTimeout(() => {
@@ -36,7 +37,7 @@ class ValveService {
             });
     }
 
-    public valveOff(valveId: number): Promise<boolean> {
+    public async  valveOff(valveId: number): Promise<boolean> {
         const url = $localStorageRepository.read<string>('apiPath') ?? 'http://dripdrop.local';
         const timeout = axios.CancelToken.source();
         setTimeout(() => {
@@ -53,7 +54,7 @@ class ValveService {
             });
     }
 
-    public count(): Promise<number> {
+    public getAll(): Promise<IValve[]> {
         const url = $localStorageRepository.read<string>('apiPath') ?? 'http://dripdrop.local';
         const timeout = axios.CancelToken.source();
         setTimeout(() => {
@@ -61,7 +62,7 @@ class ValveService {
         }, 3000);
 
         return axios
-            .get(`${url}/valves/count`, { cancelToken: timeout.token })
+            .get(`${url}/valves`, { cancelToken: timeout.token })
             .then((response) => {
                 return response.data;
             })
