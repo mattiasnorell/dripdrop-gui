@@ -1,7 +1,12 @@
 import axios, { CancelToken } from 'axios';
 import { $localStorageRepository } from '_services/repositories/localStorageRepository';
 
-class SystemService {
+interface ISystemService {
+    ping(): Promise<boolean>;
+    getSystemTime(): Promise<Date>;
+    setSystemTime(date: Date): Promise<Date>;
+}
+class SystemService implements ISystemService {
     public ping(): Promise<boolean> {
         const url = $localStorageRepository.read<string>('apiPath') ?? 'http://dripdrop.local';
         const timeout = axios.CancelToken.source();

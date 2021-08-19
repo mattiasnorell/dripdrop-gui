@@ -1,7 +1,13 @@
 import axios, { CancelToken } from 'axios';
 import { $localStorageRepository } from '_services/repositories/localStorageRepository';
 
-class ValveService {
+interface IValveService{
+    state(valveId: number): Promise<any>;
+    valveOn(valveId: number): Promise<boolean>;
+    valveOff(valveId: number): Promise<boolean>;
+    count(): Promise<number>;
+}
+class ValveService implements IValveService {
     public state(valveId: number): Promise<any> {
         const url = $localStorageRepository.read<string>('apiPath') ?? 'http://dripdrop.local';
         const timeout = axios.CancelToken.source();

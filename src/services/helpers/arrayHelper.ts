@@ -1,6 +1,8 @@
 export interface IArrayHelper {
   indexOf(source: any[], element: any): number;
   moveToIndex(source: any[], index: number, targetIndex: number): void;
+  removeItem(source: any[], item: any): any;
+  removeAtIndex(source: any[], index: number): any;
 }
 
 export class ArrayHelper implements IArrayHelper {

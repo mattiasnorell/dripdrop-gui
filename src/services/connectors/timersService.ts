@@ -2,7 +2,13 @@ import axios, { CancelToken } from 'axios';
 import { IScheduleItem } from 'src/interfaces/IScheduleItem';
 import { $localStorageRepository } from '_services/repositories/localStorageRepository';
 
-class TimersService {
+interface ITimersService{
+    getTimers(): Promise<any>;
+    startTimer(valveId: number, duration: number): Promise<any>;
+    stopTimer(valveId: number): Promise<any>;
+}
+
+class TimersService implements ITimersService{
     public getTimers(): Promise<any> {
         const url = $localStorageRepository.read<string>('apiPath') ?? 'http://dripdrop.local';
         const timeout = axios.CancelToken.source();
