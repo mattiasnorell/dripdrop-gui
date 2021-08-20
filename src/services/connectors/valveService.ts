@@ -1,6 +1,6 @@
-import axios, { CancelToken } from 'axios';
-import { injectable } from 'inversify-props';
-import { $localStorageRepository } from '_services/repositories/localStorageRepository';
+import axios from 'axios';
+import { inject, injectable } from 'inversify-props';
+import { ILocalStorageHelper } from '_services/helpers/localStorageHelper';
 import { IValve } from 'src/interfaces/IValve';
 
 export interface IValveService{
@@ -12,8 +12,11 @@ export interface IValveService{
 
 @injectable()
 export class ValveService implements IValveService {
+    @inject()
+    private _localStorageHelper: ILocalStorageHelper;
+    
     public async state(valveId: number): Promise<any> {
-        const url = $localStorageRepository.read<string>('apiPath') ?? 'http://dripdrop.local';
+        const url = this._localStorageHelper.read<string>('apiPath') ?? 'http://dripdrop.local';
         const timeout = axios.CancelToken.source();
         setTimeout(() => {
             timeout.cancel();
@@ -30,7 +33,7 @@ export class ValveService implements IValveService {
     }
 
     public async valveOn(valveId: number): Promise<boolean> {
-        const url = $localStorageRepository.read<string>('apiPath') ?? 'http://dripdrop.local';
+        const url = this._localStorageHelper.read<string>('apiPath') ?? 'http://dripdrop.local';
         const timeout = axios.CancelToken.source();
         setTimeout(() => {
             timeout.cancel();
@@ -47,7 +50,7 @@ export class ValveService implements IValveService {
     }
 
     public async  valveOff(valveId: number): Promise<boolean> {
-        const url = $localStorageRepository.read<string>('apiPath') ?? 'http://dripdrop.local';
+        const url = this._localStorageHelper.read<string>('apiPath') ?? 'http://dripdrop.local';
         const timeout = axios.CancelToken.source();
         setTimeout(() => {
             timeout.cancel();
@@ -64,7 +67,7 @@ export class ValveService implements IValveService {
     }
 
     public getAll(): Promise<IValve[]> {
-        const url = $localStorageRepository.read<string>('apiPath') ?? 'http://dripdrop.local';
+        const url = this._localStorageHelper.read<string>('apiPath') ?? 'http://dripdrop.local';
         const timeout = axios.CancelToken.source();
         setTimeout(() => {
             timeout.cancel();

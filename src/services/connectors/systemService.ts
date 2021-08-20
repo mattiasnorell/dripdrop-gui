@@ -1,14 +1,20 @@
-import axios, { CancelToken } from 'axios';
-import { $localStorageRepository } from '_services/repositories/localStorageRepository';
+import axios from 'axios';
+import { inject, injectable } from 'inversify-props';
+import { ILocalStorageHelper } from '_services/helpers/localStorageHelper';
 
-interface ISystemService {
+export interface ISystemService {
     ping(): Promise<boolean>;
     getSystemTime(): Promise<Date>;
     setSystemTime(date: Date): Promise<Date>;
 }
-class SystemService implements ISystemService {
+
+@injectable()
+export class SystemService implements ISystemService {
+    @inject()
+    private _localStorageHelper: ILocalStorageHelper;
+
     public ping(): Promise<boolean> {
-        const url = $localStorageRepository.read<string>('apiPath') ?? 'http://dripdrop.local';
+        const url = this._localStorageHelper.read<string>('apiPath') ?? 'http://dripdrop.local';
         const timeout = axios.CancelToken.source();
         setTimeout(() => {
             timeout.cancel();
@@ -25,7 +31,7 @@ class SystemService implements ISystemService {
     }
 
     public getSystemTime(): Promise<Date> {
-        const url = $localStorageRepository.read<string>('apiPath') ?? 'http://dripdrop.local';
+        const url = this._localStorageHelper.read<string>('apiPath') ?? 'http://dripdrop.local';
         const timeout = axios.CancelToken.source();
         setTimeout(() => {
             timeout.cancel();
@@ -42,7 +48,7 @@ class SystemService implements ISystemService {
     }
 
     public setSystemTime(date: Date): Promise<Date> {
-        const url = $localStorageRepository.read<string>('apiPath') ?? 'http://dripdrop.local';
+        const url = this._localStorageHelper.read<string>('apiPath') ?? 'http://dripdrop.local';
         const timeout = axios.CancelToken.source();
         setTimeout(() => {
             timeout.cancel();
@@ -66,6 +72,3 @@ class SystemService implements ISystemService {
             });
     }
 }
-
-const $systemService = new SystemService();
-export { $systemService };

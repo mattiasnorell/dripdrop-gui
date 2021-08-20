@@ -1,7 +1,7 @@
 import axios, { CancelToken } from 'axios';
-import { injectable } from 'inversify-props';
+import { inject, injectable } from 'inversify-props';
 import { IScheduleItem } from 'src/interfaces/IScheduleItem';
-import { $localStorageRepository } from '_services/repositories/localStorageRepository';
+import { ILocalStorageHelper } from '_services/helpers/localStorageHelper';
 
 export interface ISchedulesService{
     getSchedule(valveId: number): Promise<any>;
@@ -11,8 +11,12 @@ export interface ISchedulesService{
 
 @injectable()
 export class SchedulesService implements ISchedulesService{
+
+    @inject()
+    private _localStorageHelper: ILocalStorageHelper;
+
     public getSchedule(valveId: number): Promise<any> {
-        const url = $localStorageRepository.read<string>('apiPath') ?? 'http://dripdrop.local';
+        const url = this._localStorageHelper.read<string>('apiPath') ?? 'http://dripdrop.local';
         const timeout = axios.CancelToken.source();
         setTimeout(() => {
             timeout.cancel();
@@ -29,7 +33,7 @@ export class SchedulesService implements ISchedulesService{
     }
 
     public updateSchedule(valveId: number, scheduleItem: IScheduleItem): Promise<boolean> {
-        const url = $localStorageRepository.read<string>('apiPath') ?? 'http://dripdrop.local';
+        const url = this._localStorageHelper.read<string>('apiPath') ?? 'http://dripdrop.local';
         const timeout = axios.CancelToken.source();
         setTimeout(() => {
             timeout.cancel();
@@ -46,7 +50,7 @@ export class SchedulesService implements ISchedulesService{
     }
 
     public deleteSchedule(scheduleId: number): Promise<boolean> {
-        const url = $localStorageRepository.read<string>('apiPath') ?? 'http://dripdrop.local';
+        const url = this._localStorageHelper.read<string>('apiPath') ?? 'http://dripdrop.local';
         const timeout = axios.CancelToken.source();
         setTimeout(() => {
             timeout.cancel();

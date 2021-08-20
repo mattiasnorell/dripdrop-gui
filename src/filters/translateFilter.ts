@@ -1,8 +1,10 @@
-import { $languageRepository } from '_services/repositories/languageRepository';
+import { cid, container } from 'inversify-props';
+import { ILanguageHelper } from '_services/helpers/languageHelper';
 
 const TranslateFilter = (key: string) => {
-    return $languageRepository.get(key);
-}
+    const languageRepository = container.get<ILanguageHelper>(cid.ILanguageHelper);
+    return languageRepository.get(key);
+};
 
 const $translateFilter = TranslateFilter;
 export default $translateFilter;

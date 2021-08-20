@@ -1,16 +1,20 @@
-import axios, { CancelToken } from 'axios';
-import { IScheduleItem } from 'src/interfaces/IScheduleItem';
-import { $localStorageRepository } from '_services/repositories/localStorageRepository';
+import axios from 'axios';
+import { inject, injectable } from 'inversify-props';
+import { ILocalStorageHelper } from '_services/helpers/localStorageHelper';
 
-interface ITimersService{
+export interface ITimersService{
     getTimers(): Promise<any>;
     startTimer(valveId: number, duration: number): Promise<any>;
     stopTimer(valveId: number): Promise<any>;
 }
 
-class TimersService implements ITimersService{
+@injectable()
+export class TimersService implements ITimersService{
+    @inject()
+    private _localStorageHelper: ILocalStorageHelper;
+    
     public getTimers(): Promise<any> {
-        const url = $localStorageRepository.read<string>('apiPath') ?? 'http://dripdrop.local';
+        const url = this._localStorageHelper.read<string>('apiPath') ?? 'http://dripdrop.local';
         const timeout = axios.CancelToken.source();
         setTimeout(() => {
             timeout.cancel();
@@ -27,7 +31,7 @@ class TimersService implements ITimersService{
     }
 
     public startTimer(valveId: number, duration: number): Promise<any> {
-        const url = $localStorageRepository.read<string>('apiPath') ?? 'http://dripdrop.local';
+        const url = this._localStorageHelper.read<string>('apiPath') ?? 'http://dripdrop.local';
         const timeout = axios.CancelToken.source();
         setTimeout(() => {
             timeout.cancel();
@@ -44,7 +48,7 @@ class TimersService implements ITimersService{
     }
 
     public stopTimer(valveId: number): Promise<any> {
-        const url = $localStorageRepository.read<string>('apiPath') ?? 'http://dripdrop.local';
+        const url = this._localStorageHelper.read<string>('apiPath') ?? 'http://dripdrop.local';
         const timeout = axios.CancelToken.source();
         setTimeout(() => {
             timeout.cancel();
@@ -60,6 +64,3 @@ class TimersService implements ITimersService{
             });
     }
 }
-
-const $timersService = new TimersService();
-export { $timersService };

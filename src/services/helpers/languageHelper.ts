@@ -1,8 +1,12 @@
-interface ILanguageRepository {
+import { injectable } from "inversify-props";
+
+export interface ILanguageHelper {
   get(key: string): string;
 }
 
-class LanguageRepository implements ILanguageRepository {
+@injectable()
+export class LanguageHelper implements ILanguageHelper {
+
   private translations: { [key: string]: string } = {
     cancel: 'Avbryt',
     loading: 'Laddar',
@@ -16,6 +20,3 @@ class LanguageRepository implements ILanguageRepository {
     return `No translation found for "${key}"`;
   }
 }
-
-const $languageRepository = new LanguageRepository();
-export { $languageRepository };

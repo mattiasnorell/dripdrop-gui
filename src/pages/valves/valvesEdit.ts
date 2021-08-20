@@ -6,7 +6,7 @@ import { Layout } from '_components/base/layout/layout';
 import { DropIcon } from '_components/drop-icon/dropIcon';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { IScheduleItem } from 'src/interfaces/IScheduleItem';
-import { $timersService } from '_services/connectors/timersService';
+import { ITimersService } from '_services/connectors/timersService';
 import { ISchedulesService } from '_services/connectors/schedulesService';
 import { IValveService } from '_services/connectors/valveService';
 import { SelectOption, InputSelect } from '_components/base/input-select/inputSelect';
@@ -27,6 +27,9 @@ export default class ValvesEdit extends Vue {
 
     @inject()
     private _schedulesService: ISchedulesService;
+
+    @inject()
+    private _timerService: ITimersService;
 
     @Prop({ type: Number, default: -1 })
     public id: number;
@@ -78,7 +81,7 @@ export default class ValvesEdit extends Vue {
     }
 
     private async loadTimer(): Promise<any> {
-        const result = await $timersService.getTimers();
+        const result = await this._timerService.getTimers();
         const timer = result.data.filter((item: any) => item.valveId === this.id);
 
         return timer;
@@ -105,12 +108,12 @@ export default class ValvesEdit extends Vue {
         const duration = window.prompt('Timers längd i minuter');
 
         if (duration) {
-            await $timersService.startTimer(this.id, parseInt(duration) * 60);
+            await this._timerService.startTimer(this.id, parseInt(duration) * 60);
         }
     }
 
     private async onStopTimer(): Promise<void> {
-        await $timersService.stopTimer(this.id);
+        await this._timerService.stopTimer(this.id);
     }
 
     private async onRemoveSchedule(item: IScheduleItem): Promise<void> {
