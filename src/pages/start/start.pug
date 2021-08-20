@@ -1,3 +1,10 @@
 layout()
     div(class="container w-full")
-        h3() DripDrop
+        
+        div(class="flex shadow-lg" v-if="!isConnected")
+            div(class="grow-0 rounded-l-md rounded-md p-3 bg-white text-red-500 text-2xl flex items-center")
+                font-awesome-icon(icon="exclamation-triangle")
+            div(class="flex-1 rounded-r-md py-2 px-3 bg-red-400 text-white flex items-center") 
+                div()
+                    p(class="font-bold") Kan inte nå kontrollenheten
+                    p(class="text-xs") Kontrollera sökväg under inställningar

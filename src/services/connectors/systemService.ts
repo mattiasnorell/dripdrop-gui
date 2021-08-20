@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { inject, injectable } from 'inversify-props';
+import { Inject, injectable } from 'inversify-props';
 import { ILocalStorageHelper } from '_services/helpers/localStorageHelper';
 
 export interface ISystemService {
@@ -10,10 +10,10 @@ export interface ISystemService {
 
 @injectable()
 export class SystemService implements ISystemService {
-    @inject()
+    @Inject()
     private _localStorageHelper: ILocalStorageHelper;
 
-    public ping(): Promise<boolean> {
+    public async ping(): Promise<boolean> {
         const url = this._localStorageHelper.read<string>('apiPath') ?? 'http://dripdrop.local';
         const timeout = axios.CancelToken.source();
         setTimeout(() => {
@@ -21,7 +21,7 @@ export class SystemService implements ISystemService {
         }, 3000);
 
         return axios
-            .get(`${url}/ping/`, { cancelToken: timeout.token })
+            .get(`${url}/ping`, { cancelToken: timeout.token })
             .then((response) => {
                 return true;
             })
@@ -30,7 +30,7 @@ export class SystemService implements ISystemService {
             });
     }
 
-    public getSystemTime(): Promise<Date> {
+    public async getSystemTime(): Promise<Date> {
         const url = this._localStorageHelper.read<string>('apiPath') ?? 'http://dripdrop.local';
         const timeout = axios.CancelToken.source();
         setTimeout(() => {
@@ -47,7 +47,7 @@ export class SystemService implements ISystemService {
             });
     }
 
-    public setSystemTime(date: Date): Promise<Date> {
+    public async setSystemTime(date: Date): Promise<Date> {
         const url = this._localStorageHelper.read<string>('apiPath') ?? 'http://dripdrop.local';
         const timeout = axios.CancelToken.source();
         setTimeout(() => {

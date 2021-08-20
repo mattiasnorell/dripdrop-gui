@@ -1,5 +1,5 @@
 import axios, { CancelToken } from 'axios';
-import { inject, injectable } from 'inversify-props';
+import { Inject, injectable } from 'inversify-props';
 import { IScheduleItem } from 'src/interfaces/IScheduleItem';
 import { ILocalStorageHelper } from '_services/helpers/localStorageHelper';
 
@@ -12,10 +12,10 @@ export interface ISchedulesService{
 @injectable()
 export class SchedulesService implements ISchedulesService{
 
-    @inject()
+    @Inject()
     private _localStorageHelper: ILocalStorageHelper;
 
-    public getSchedule(valveId: number): Promise<any> {
+    public async getSchedule(valveId: number): Promise<any> {
         const url = this._localStorageHelper.read<string>('apiPath') ?? 'http://dripdrop.local';
         const timeout = axios.CancelToken.source();
         setTimeout(() => {
@@ -32,7 +32,7 @@ export class SchedulesService implements ISchedulesService{
             });
     }
 
-    public updateSchedule(valveId: number, scheduleItem: IScheduleItem): Promise<boolean> {
+    public async updateSchedule(valveId: number, scheduleItem: IScheduleItem): Promise<boolean> {
         const url = this._localStorageHelper.read<string>('apiPath') ?? 'http://dripdrop.local';
         const timeout = axios.CancelToken.source();
         setTimeout(() => {
@@ -49,7 +49,7 @@ export class SchedulesService implements ISchedulesService{
             });
     }
 
-    public deleteSchedule(scheduleId: number): Promise<boolean> {
+    public async deleteSchedule(scheduleId: number): Promise<boolean> {
         const url = this._localStorageHelper.read<string>('apiPath') ?? 'http://dripdrop.local';
         const timeout = axios.CancelToken.source();
         setTimeout(() => {

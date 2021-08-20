@@ -1,4 +1,4 @@
-import { inject, injectable } from 'inversify-props';
+import { injectable, Inject } from 'inversify-props';
 import Vue from 'vue';
 import { IGuidHelper } from './guidHelper';
 
@@ -8,7 +8,7 @@ export interface IModalHelper {
 
 @injectable()
 export class ModalHelper {
-    @inject()
+    @Inject()
     private _guidHelper: IGuidHelper;
 
     public create<T>(component: T, propsData: object, onClose: Function | null = null) {

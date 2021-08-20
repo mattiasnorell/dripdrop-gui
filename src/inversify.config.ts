@@ -23,8 +23,8 @@ export default function buildContainer(): void {
     container.addSingleton<ILanguageHelper>(LanguageHelper);
 
     // Services
-    container.addTransient<ISchedulesService>(SchedulesService);
-    container.addTransient<IValveService>(ValveService);
-    container.addTransient<ISystemService>(SystemService);
-    container.addTransient<ITimersService>(TimersService);
+    container.addSingleton<ISchedulesService>(SchedulesService);
+    container.addSingleton<IValveService>(ValveService);
+    container.addSingleton<ISystemService>(SystemService);
+    container.addSingleton<ITimersService>(TimersService);
 }

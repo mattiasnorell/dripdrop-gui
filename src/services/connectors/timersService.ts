@@ -1,19 +1,19 @@
 import axios from 'axios';
-import { inject, injectable } from 'inversify-props';
+import { Inject, injectable } from 'inversify-props';
 import { ILocalStorageHelper } from '_services/helpers/localStorageHelper';
 
-export interface ITimersService{
+export interface ITimersService {
     getTimers(): Promise<any>;
     startTimer(valveId: number, duration: number): Promise<any>;
     stopTimer(valveId: number): Promise<any>;
 }
 
 @injectable()
-export class TimersService implements ITimersService{
-    @inject()
+export class TimersService implements ITimersService {
+    @Inject()
     private _localStorageHelper: ILocalStorageHelper;
-    
-    public getTimers(): Promise<any> {
+
+    public async getTimers(): Promise<any> {
         const url = this._localStorageHelper.read<string>('apiPath') ?? 'http://dripdrop.local';
         const timeout = axios.CancelToken.source();
         setTimeout(() => {
@@ -30,7 +30,7 @@ export class TimersService implements ITimersService{
             });
     }
 
-    public startTimer(valveId: number, duration: number): Promise<any> {
+    public async startTimer(valveId: number, duration: number): Promise<any> {
         const url = this._localStorageHelper.read<string>('apiPath') ?? 'http://dripdrop.local';
         const timeout = axios.CancelToken.source();
         setTimeout(() => {
@@ -47,7 +47,7 @@ export class TimersService implements ITimersService{
             });
     }
 
-    public stopTimer(valveId: number): Promise<any> {
+    public async stopTimer(valveId: number): Promise<any> {
         const url = this._localStorageHelper.read<string>('apiPath') ?? 'http://dripdrop.local';
         const timeout = axios.CancelToken.source();
         setTimeout(() => {

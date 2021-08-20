@@ -8,6 +8,7 @@ const tailwindConfig = require('./tailwind.config.js');
 const PurgeCSSPlugin = require('purgecss-webpack-plugin');
 const glob = require('glob');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const TerserPlugin = require("terser-webpack-plugin");
 
 module.exports = {
   entry: {
@@ -50,7 +51,7 @@ module.exports = {
               sourceMap: true,
               plugins: [
                 require('tailwindcss')(tailwindConfig),
-               
+
               ]
             }
           }
@@ -62,6 +63,7 @@ module.exports = {
       }
     ]
   },
+
   resolve: {
     extensions: ['.ts', '.js', '.scss'],
     modules: [path.resolve(__dirname, './'), 'node_modules'],
@@ -72,6 +74,15 @@ module.exports = {
       _services: path.resolve(__dirname, 'src/services'),
       _pages: path.resolve(__dirname, 'src/pages')
     }
+  },
+  optimization: {
+    minimize: true,
+    minimizer: [new TerserPlugin({
+      terserOptions: {
+        keep_classnames: true,
+        keep_fnames: true
+      }
+    })]
   },
   plugins: [
     new HtmlWebpackPlugin({

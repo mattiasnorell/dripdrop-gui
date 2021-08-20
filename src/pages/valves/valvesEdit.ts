@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import Component from 'vue-class-component';
+import { orderBy } from 'lodash';
 import { Prop } from 'vue-property-decorator';
 import { inject } from 'inversify-props';
 import { Layout } from '_components/base/layout/layout';
@@ -29,7 +30,7 @@ export default class ValvesEdit extends Vue {
     private _schedulesService: ISchedulesService;
 
     @inject()
-    private _timerService: ITimersService;
+    private _timersService: ITimersService;
 
     @Prop({ type: Number, default: -1 })
     public id: number;
@@ -81,7 +82,7 @@ export default class ValvesEdit extends Vue {
     }
 
     private async loadTimer(): Promise<any> {
-        const result = await this._timerService.getTimers();
+        const result = await this._timersService.getTimers();
         const timer = result.data.filter((item: any) => item.valveId === this.id);
 
         return timer;
@@ -90,7 +91,7 @@ export default class ValvesEdit extends Vue {
     private async loadSchedule(): Promise<void> {
         const result = await this._schedulesService.getSchedule(this.id);
         const scheduleItems = result.data.filter((item: any) => item.valveId === this.id);
-        this.schedule = scheduleItems;
+        this.schedule = orderBy(scheduleItems, ['fromHour', 'fromMinute']);
     }
 
     private async onTogglePower(): Promise<void> {
@@ -108,18 +109,23 @@ export default class ValvesEdit extends Vue {
         const duration = window.prompt('Timers längd i minuter');
 
         if (duration) {
-            await this._timerService.startTimer(this.id, parseInt(duration) * 60);
+            await this._timersService.startTimer(this.id, parseInt(duration) * 60);
         }
     }
 
     private async onStopTimer(): Promise<void> {
-        await this._timerService.stopTimer(this.id);
+        await this._timersService.stopTimer(this.id);
     }
 
     private async onRemoveSchedule(item: IScheduleItem): Promise<void> {
-        console.log(item)
         if (!item.scheduleId && item.scheduleId != 0) {
             return;
+        }
+
+        const isConfirmed = window.confirm('Radera?');
+
+        if (!isConfirmed) {
+            return
         }
 
         await this._schedulesService.deleteSchedule(item.scheduleId);
@@ -128,19 +134,18 @@ export default class ValvesEdit extends Vue {
 
     private async onAddSchedule(): Promise<void> {
         if (this.newSchduleItem.fromHour >= this.newSchduleItem.toHour && this.newSchduleItem.fromMinute >= this.newSchduleItem.toMinute) {
-            console.log('Fråntid kan inte vara snare än tilltid');
-
+            alert('Fråntid kan inte vara snare än tilltid');
             return;
         }
 
         await this._schedulesService.updateSchedule(this.id, this.newSchduleItem);
 
-        this.newSchduleItem = {
+        /*this.newSchduleItem = {
             fromHour: 0,
             fromMinute: 0,
             toHour: 0,
             toMinute: 0
-        };
+        };*/
 
         this.loadSchedule();
     }

@@ -1,10 +1,10 @@
 import axios from 'axios';
-import { inject, injectable } from 'inversify-props';
+import { Inject, injectable } from 'inversify-props';
 import { ILocalStorageHelper } from '_services/helpers/localStorageHelper';
 import { IValve } from 'src/interfaces/IValve';
 
-export interface IValveService{
-    state(valveId: number): Promise<any>;
+export interface IValveService {
+    state(valveId: number): Promise<boolean>;
     valveOn(valveId: number): Promise<boolean>;
     valveOff(valveId: number): Promise<boolean>;
     getAll(): Promise<IValve[]>;
@@ -12,10 +12,10 @@ export interface IValveService{
 
 @injectable()
 export class ValveService implements IValveService {
-    @inject()
+    @Inject()
     private _localStorageHelper: ILocalStorageHelper;
-    
-    public async state(valveId: number): Promise<any> {
+
+    public async state(valveId: number): Promise<boolean> {
         const url = this._localStorageHelper.read<string>('apiPath') ?? 'http://dripdrop.local';
         const timeout = axios.CancelToken.source();
         setTimeout(() => {
@@ -28,7 +28,7 @@ export class ValveService implements IValveService {
                 return response.data;
             })
             .catch((error: any) => {
-                return null;
+                return false;
             });
     }
 
@@ -49,7 +49,7 @@ export class ValveService implements IValveService {
             });
     }
 
-    public async  valveOff(valveId: number): Promise<boolean> {
+    public async valveOff(valveId: number): Promise<boolean> {
         const url = this._localStorageHelper.read<string>('apiPath') ?? 'http://dripdrop.local';
         const timeout = axios.CancelToken.source();
         setTimeout(() => {
