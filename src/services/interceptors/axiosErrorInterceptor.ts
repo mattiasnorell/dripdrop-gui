@@ -1,4 +1,4 @@
-import axios from 'axios';
+/*import axios from 'axios';
 
 axios.interceptors.response.use(
   (response) => {
@@ -12,3 +12,4 @@ axios.interceptors.response.use(
     return Promise.reject(error);
   }
 );
+*/

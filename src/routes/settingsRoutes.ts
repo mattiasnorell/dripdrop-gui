@@ -1,6 +1,6 @@
 import { RouteLink } from '../models/Route';
 
-const Settings = () => import(/* webpackChunkName: "routes" */ '../pages/settings/settings');
+const Settings = () => import(/* webpackChunkName: "settings" */ '../pages/settings/settings');
 
 const $settingsRoutes = <RouteLink[]>[
     {

@@ -1,6 +1,6 @@
 import { RouteLink } from '../models/Route';
 
-const Start = () => import(/* webpackChunkName: "routes" */ '../pages/start/start');
+const Start = () => import(/* webpackChunkName: "main" */ '../pages/start/start');
 
 const $mainRoutes = <RouteLink[]>[
     {

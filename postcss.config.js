@@ -1,7 +1,10 @@
-const purgecss = require('@fullhuman/postcss-purgecss');
+/*jshint esversion: 6 */
 
 module.exports = {
-    plugins: {
-      tailwindcss: { config: './tailwind.config.js' },
-    }
-  }
+  plugins: [
+          require("postcss-import")(),
+          require('tailwindcss/nesting'),
+          require('tailwindcss'),
+          require('autoprefixer')
+      ]
+}

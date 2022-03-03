@@ -17,37 +17,83 @@ layout()
         div(class="")
             h3(class="text-lg font-bold mb-1") Schema
 
-            div(class="p-4 rounded-md bg-white")
-                table(class="table table-auto w-full")
-                    thead()
-                        tr()
-                            th(class="text-left") Från 
-                            th(class="text-left") Till 
-                            th(class="text-left") 
-                    tbody()
-                        tr(v-for="(item, index) in schedule")
-                            td(class="py-1") {{ item.fromHour | addZeroToTime}}:{{ item.fromMinute | addZeroToTime}}
-                            td(class="py-1") {{ item.toHour | addZeroToTime}}:{{ item.toMinute | addZeroToTime}}
-                            td(class="py-1 text-right")
-                                button(@click="onRemoveSchedule(item)")
-                                    font-awesome-icon(icon="trash-alt")
+            div(class="rounded-md bg-white")
+                div(class="w-full")
+                    div(class="grid grid-cols-4 font-bold")
+                        div(class="py-1 text-left") Från 
+                        div(class="py-1 text-left") Till 
+                        div(class="py-1 text-left") Dagar 
+                        
+                        div(class="py-1") 
 
-                        tr(class="border-t border-gray-500")
-                            td(class="py-2")
-                                div(class="flex")
-                                    input-select(class="p-1" :options="hourValues" @onChange="onUpdateFromHour")
-                                    span(class="ml-1 mr-1") :
-                                    input-select(class="p-1" :options="minuteValues" @onChange="onUpdateFromMinute")
-                                
-                            td(class="py-2")
-                                div(class="flex")
-                                    input-select(:options="hourValues" @onChange="onUpdateToHour")
-                                    span(class="ml-1 mr-1") :
-                                    input-select(:options="minuteValues" @onChange="onUpdateToMinute")
+                    div(class="w-full flex justify-center" v-if="isPending")
+                        span()
+                            font-awesome-icon(icon="spinner" spin)
 
-                            td(class="py-2 text-right")
+                    div(class="grid grid-cols-4" v-for="(item, index) in schedule")
+                        div(class="py-1") {{ item.fromHour | addZeroToTime}}:{{ item.fromMinute | addZeroToTime}}
+                        div(class="py-1") {{ item.toHour | addZeroToTime}}:{{ item.toMinute | addZeroToTime}}
+                        div(class="py-1")
+                            span(class="mr-1" :class="{'text-gray-300': !item.days[1]}") M
+                            span(class="mr-1" :class="{'text-gray-300': !item.days[2]}") T
+                            span(class="mr-1" :class="{'text-gray-300': !item.days[3]}") O
+                            span(class="mr-1" :class="{'text-gray-300': !item.days[4]}") T
+                            span(class="mr-1" :class="{'text-gray-300': !item.days[5]}") F
+                            span(class="mr-1" :class="{'text-gray-300': !item.days[6]}") L
+                            span(:class="{'text-gray-300': !item.days[0]}") S
+                        div(class="py-1 text-right")
+                            button(class="mr-2" @click="onRemoveSchedule(item)")
+                                font-awesome-icon(icon="edit")
+
+                            button(@click="onRemoveSchedule(item)")
+                                font-awesome-icon(icon="trash-alt")
+
+                    div(class="border-t border-gray-500")
+                        div(class="flex")
+                            div(class="flex justify-center content-center mr-4")
+                                input-select(class="p-1" :options="hourValues" @onChange="onUpdateFromHour")
+                                div(class="flex justify-center content-center ml-1 mr-1") :
+                                input-select(class="p-1" :options="minuteValues" @onChange="onUpdateFromMinute")
+                            
+                        
+                            div(class="flex justify-center content-center mr-4")
+                                input-select(class="p-1" :options="hourValues" @onChange="onUpdateToHour")
+                                div(class="flex justify-center content-center ml-1 mr-1") :
+                                input-select(class="p-1" :options="minuteValues" @onChange="onUpdateToMinute")
+
+                            div(class="flex-1 py-2 flex justify-center content-center")
                                 button(@click="onAddSchedule")
                                     font-awesome-icon(icon="plus")
+                        div(class="flex justify-between")
+                            div()
+                                span() M
+                                input(type="checkbox" v-model="newSchduleItem.days[1]") 
+                            div()
+                                span() T
+                                input(type="checkbox" v-model="newSchduleItem.days[2]") 
+                            div()
+                                span() O
+                                input(type="checkbox" v-model="newSchduleItem.days[3]") 
+                            div()
+                                span() T
+                                input(type="checkbox" v-model="newSchduleItem.days[4]") 
+                            div()
+                                span() F
+                                input(type="checkbox" v-model="newSchduleItem.days[5]") 
+                            div()
+                                span() L
+                                input(type="checkbox" v-model="newSchduleItem.days[6]") 
+                            div()
+                                span() S
+                                input(type="checkbox" v-model="newSchduleItem.days[0]") 
+            
+            div(class="rounded-md bg-white mt-4")
+                h3(class="text-lg font-bold mb-1") Senaste körning
+                div(class="grid grid-cols-2")
+                    div(class="font-bold") Från
+                    div(class="font-bold") Till
+                    div() {{ lastRunStart }} 
+                    div() {{ lastRunEnd }}
 
         div(class="mt-8")
             button(class="bg-red-800 shadow-md p-4 rounded-lg w-full text-white" @click="onForceOff") Stäng av ventilen

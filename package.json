@@ -1,61 +1,64 @@
 {
-  "name": "dripdrop-gui",
-  "version": "1.0.0",
-  "description": "GUI for DripDrop",
-  "main": "index.ts",
-  "scripts": {
-    "start": "webpack serve  --mode development --env development --config webpack.dev.js",
-    "build": "rimraf dist && webpack --mode production --config webpack.prod.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/mattiasnorell/dripdrop-gui.git"
-  },
-  "author": "Mattias Norell",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/mattiasnorell/dripdrop-gui/issues"
-  },
-  "homepage": "https://github.com/mattiasnorell/dripdrop-gui#readme",
-  "devDependencies": {
-    "@fortawesome/fontawesome-svg-core": "^1.2.32",
-    "@fortawesome/free-solid-svg-icons": "^5.15.1",
-    "@fortawesome/vue-fontawesome": "^2.0.0",
-    "@fullhuman/postcss-purgecss": "^3.0.0",
-    "autoprefixer": "^10.0.2",
-    "axios": "^0.21.1",
-    "css-loader": "^5.0.0",
-    "file-loader": "^6.2.0",
-    "html-loader": "^1.3.2",
-    "html-webpack-plugin": "^4.5.0",
-    "i": "^0.3.6",
-    "inversify": "^5.1.1",
-    "inversify-props": "^2.2.6",
-    "mini-css-extract-plugin": "^1.2.1",
-    "npm": "^7.20.6",
-    "postcss-loader": "^3.0.0",
-    "pug": "^3.0.2",
-    "pug-html-loader": "^1.1.5",
-    "pug-loader": "^2.4.0",
-    "pug-plain-loader": "^1.0.0",
-    "purgecss-webpack-plugin": "^3.0.0",
-    "reflect-metadata": "^0.1.13",
-    "rimraf": "^3.0.2",
-    "tailwindcss": "^2.2.7",
-    "ts-loader": "^9.2.5",
-    "typescript": "^4.3.5",
-    "vue": "^2.6.12",
-    "vue-class-component": "^7.2.6",
-    "vue-property-decorator": "^9.0.2",
-    "vue-router": "^3.4.9",
-    "webpack": "^5.50.0",
-    "webpack-bundle-analyzer": "^4.1.0",
-    "webpack-cli": "^4.7.2",
-    "webpack-dev-server": "^3.11.2"
-  },
-  "dependencies": {
-    "@types/lodash": "^4.14.172",
-    "lodash": "^4.17.21"
-  }
+    "name": "dripdrop-gui",
+    "version": "1.0.0",
+    "description": "GUI for DripDrop",
+    "main": "index.ts",
+    "scripts": {
+        "start": "webpack serve  --mode development --env development --config webpack.dev.js",
+        "build": "rimraf dist && webpack --mode production --config webpack.prod.js",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/mattiasnorell/dripdrop-gui.git"
+    },
+    "author": "Mattias Norell",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/mattiasnorell/dripdrop-gui/issues"
+    },
+    "homepage": "https://github.com/mattiasnorell/dripdrop-gui#readme",
+    "devDependencies": {
+        "@fortawesome/fontawesome-svg-core": "^1.2.32",
+        "@fortawesome/free-solid-svg-icons": "^5.15.1",
+        "@fortawesome/vue-fontawesome": "^2.0.0",
+        "@types/lodash": "^4.14.172",
+        "autoprefixer": "^10.4.2",
+        "css-loader": "^6.5.1",
+        "css-minimizer-webpack-plugin": "^3.2.0",
+        "file-loader": "^6.2.0",
+        "html-loader": "^1.3.2",
+        "html-webpack-plugin": "^4.5.0",
+        "inversify": "^5.1.1",
+        "inversify-props": "^2.2.6",
+        "mini-css-extract-plugin": "^2.5.3",
+        "npm": "^8.3.1",
+        "postcss": "^8.4.5",
+        "postcss-import": "^14.0.2",
+        "postcss-loader": "^6.2.1",
+        "postcss-nested": "^5.0.6",
+        "pug": "^3.0.2",
+        "pug-html-loader": "^1.1.5",
+        "pug-loader": "^2.4.0",
+        "pug-plain-loader": "^1.0.0",
+        "purgecss-webpack-plugin": "^3.0.0",
+        "raw-loader": "^4.0.2",
+        "reflect-metadata": "^0.1.13",
+        "rimraf": "^3.0.2",
+        "tailwindcss": "^2.2.7",
+        "terser-webpack-plugin": "^5.3.0",
+        "ts-loader": "^9.2.5",
+        "typescript": "^4.3.5",
+        "vue": "^2.6.14",
+        "vue-class-component": "^7.2.6",
+        "vue-property-decorator": "^9.0.2",
+        "vue-router": "^3.4.9",
+        "webpack": "^5.50.0",
+        "webpack-bundle-analyzer": "^4.1.0",
+        "webpack-cli": "^4.7.2",
+        "webpack-dev-server": "^3.11.2"
+    },
+    "dependencies": {
+        "lodash": "^4.17.21"
+    }
 }

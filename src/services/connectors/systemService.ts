@@ -1,20 +1,23 @@
-import axios from 'axios';
+//import axios from 'axios';
 import { Inject, injectable } from 'inversify-props';
+import { HttpFactory } from '_services/factories/HttpFactory';
 import { ILocalStorageHelper } from '_services/helpers/localStorageHelper';
 
 export interface ISystemService {
     ping(): Promise<boolean>;
-    getSystemTime(): Promise<Date>;
+    getSystemTime(): Promise<number>;
     setSystemTime(date: Date): Promise<Date>;
 }
 
 @injectable()
-export class SystemService implements ISystemService {
+export class SystemService extends HttpFactory implements ISystemService {
     @Inject()
     private _localStorageHelper: ILocalStorageHelper;
 
     public async ping(): Promise<boolean> {
         const url = this._localStorageHelper.read<string>('apiPath') ?? 'http://dripdrop.local';
+        return await this.$get(`${url}/ping`);
+        /*
         const timeout = axios.CancelToken.source();
         setTimeout(() => {
             timeout.cancel();
@@ -27,12 +30,13 @@ export class SystemService implements ISystemService {
             })
             .catch((error) => {
                 return false;
-            });
+            });*/
     }
 
-    public async getSystemTime(): Promise<Date> {
+    public async getSystemTime(): Promise<number> {
         const url = this._localStorageHelper.read<string>('apiPath') ?? 'http://dripdrop.local';
-        const timeout = axios.CancelToken.source();
+        return await this.$get(`${url}/system/time`);
+        /*const timeout = axios.CancelToken.source();
         setTimeout(() => {
             timeout.cancel();
         }, 3000);
@@ -44,11 +48,20 @@ export class SystemService implements ISystemService {
             })
             .catch((error) => {
                 return new Date(0);
-            });
+            });*/
     }
 
-    public async setSystemTime(date: Date): Promise<Date> {
+    public async setSystemTime(date: Date): Promise<any> {
         const url = this._localStorageHelper.read<string>('apiPath') ?? 'http://dripdrop.local';
+        return await this.$post(`${url}/system/time`, {
+            year: date.getUTCFullYear(),
+            month: date.getUTCMonth() + 1,
+            day: date.getUTCDate(),
+            hour: date.getUTCHours(),
+            minute: date.getUTCMinutes(),
+            second: date.getUTCSeconds()
+        });
+        /*
         const timeout = axios.CancelToken.source();
         setTimeout(() => {
             timeout.cancel();
@@ -69,6 +82,6 @@ export class SystemService implements ISystemService {
             })
             .catch((error) => {
                 return new Date(0);
-            });
+            });*/
     }
 }

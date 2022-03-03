@@ -1,8 +1,8 @@
 import { Route } from 'vue-router/types/router';
 import { RouteLink } from '../models/Route';
 
-const ValvesList = () => import(/* webpackChunkName: "routes" */ '../pages/valves/valvesList');
-const ValveEdit = () => import(/* webpackChunkName: "routes" */ '../pages/valves/valvesEdit');
+const ValvesList = () => import(/* webpackChunkName: "valves" */ '../pages/valves/valvesList');
+const ValveEdit = () => import(/* webpackChunkName: "valves" */ '../pages/valves/valvesEdit');
 
 const $valveRoutes = <RouteLink[]>[
     {

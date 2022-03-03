@@ -3,7 +3,7 @@ layout()
         div(class="mb-4")
             h1(class="text-xl font-bold") Ventiler
 
-        div(class="bg-white p-4 rounded-lg")
+        div(class="bg-white rounded-lg")
             div(v-if="isPending")
                 span()
                     font-awesome-icon(icon="spinner" spin)
@@ -13,7 +13,7 @@ layout()
             table(class="table table-auto w-full")
                 tbody()
                     tr(v-for="(valve, index) in valves")
-                        td(class="border-b border-gray-200 last:border-none py-2") 
+                        td(class="border-b border-gray-200 py-2") 
                             router-link(:to="{name:'valvesEdit', params: {id: valve}}") Ventil {{ valve }}
-                        td(class="border-b border-gray-200 last:border-none text-right py-2")
+                        td(class="border-b border-gray-200 text-right py-2")
                             router-link(:to="{name:'valvesEdit', params: {id: valve}}") Redigera

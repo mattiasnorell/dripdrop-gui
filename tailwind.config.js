@@ -1,16 +1,13 @@
 // tailwind.config.js
 module.exports = {
-  jit: true,
-  purge: [],
-  darkMode: false, // or 'media' or 'class'
-  theme: {
-    extend: {},
-    
-  },
-  variants: {
-    extend: {
-      borderWidth: ['last']
-    },
-  },
-  plugins: [],
+  important: false,
+  mode: 'jit',
+  content: ['./src/**/*.pug', './src/**/*.ts'],
+  purge: [
+
+    './src/**/*.pug',
+
+    './src/**/*.{js,jsx,ts,tsx,vue}',
+
+  ],
 }
