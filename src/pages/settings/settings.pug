@@ -4,8 +4,12 @@ layout()
             h1(class="text-xl font-bold") Inställningar
             
             div(class="mt-4")
-                h3(class="text-md font-bold") API-url
+                h3(class="text-md font-bold") Url för DripDrop
                 input-text(v-model="apiPath" @input="onApiUrlChange" placeholder="dripdrop.local")
+
+            div(class="mt-4")
+                h3(class="text-md font-bold") Url för Sensorer
+                input-text(v-model="sensorsPath" @input="onSensorsUrlChange" placeholder="dripdrop-sensors.local")
 
             div(class="mt-4")
                 h3(class="text-md font-bold") Tid

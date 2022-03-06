@@ -32,14 +32,17 @@ export default class Setting extends Vue {
     @LocalStorage({storageKey:'apiPath'})
     private apiPath: string | null = '';
 
+    @LocalStorage({storageKey:'sensorsPath'})
+    private sensorsPath: string | null = '';
+
     private systemTime: Date = new Date();
     private systemTimeInterval: any;
 
     public async mounted() {
         this.apiPath = this._localStorageHelper.read<string | null>('apiPath');
+        this.sensorsPath = this._localStorageHelper.read<string | null>('sensorsPath');
 
         const currentSystemTime = await this._systemService.getSystemTime();
-        
         this.systemTime = new Date(currentSystemTime * 1000);
 
         this.systemTimeInterval = setInterval(() => {
@@ -56,10 +59,14 @@ export default class Setting extends Vue {
         this._localStorageHelper.write<string | null>('apiPath', this.apiPath);
     }
 
+    private onSensorsUrlChange() {
+        this._localStorageHelper.write<string | null>('sensorsPath', this.sensorsPath);
+    }
+
     private async onSetTime() {
         const result = await this._systemService.setSystemTime(new Date());
 
-        if(!result){
+        if(result){
             this.systemTime = new Date(result * 1000);
         }
     }

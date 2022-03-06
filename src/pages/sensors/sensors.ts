@@ -1,6 +1,8 @@
 import Vue from 'vue';
 import Component from 'vue-class-component';
 import { Layout } from '_components/base/layout/layout';
+import { inject } from 'inversify-props';
+import { ISensorsService } from '_services/connectors/sensorsService';
 @Component({
     name: 'Sensors',
     template: require('./sensors.pug'),
@@ -9,9 +11,14 @@ import { Layout } from '_components/base/layout/layout';
     }
 })
 export default class Sensors extends Vue {
-    private valves: string[] = ['1', '2', '3', '4'];
+    @inject()
+    private _sensorsService: ISensorsService;
 
-    private editSensor(id: string): void {
-        this.$router.push({ name: 'valvesEdit', params: { id: id } });
+    public temperature: number = 0;
+
+
+    public async mounted() {
+        const result = await this._sensorsService.getTemperature();
+        this.temperature = result.temperature;
     }
 }

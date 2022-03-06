@@ -6,7 +6,7 @@ import { ILocalStorageHelper } from '_services/helpers/localStorageHelper';
 export interface ISystemService {
     ping(): Promise<boolean>;
     getSystemTime(): Promise<number>;
-    setSystemTime(date: Date): Promise<Date>;
+    setSystemTime(date: Date): Promise<number>;
 }
 
 @injectable()
@@ -16,7 +16,7 @@ export class SystemService extends HttpFactory implements ISystemService {
 
     public async ping(): Promise<boolean> {
         const url = this._localStorageHelper.read<string>('apiPath') ?? 'http://dripdrop.local';
-        return await this.$get(`${url}/ping`);
+        return await this.$get(`${url}/system/ping`);
         /*
         const timeout = axios.CancelToken.source();
         setTimeout(() => {
@@ -51,7 +51,7 @@ export class SystemService extends HttpFactory implements ISystemService {
             });*/
     }
 
-    public async setSystemTime(date: Date): Promise<any> {
+    public async setSystemTime(date: Date): Promise<number> {
         const url = this._localStorageHelper.read<string>('apiPath') ?? 'http://dripdrop.local';
         return await this.$post(`${url}/system/time`, {
             year: date.getUTCFullYear(),

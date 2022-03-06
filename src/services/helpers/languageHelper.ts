@@ -7,10 +7,11 @@ export interface ILanguageHelper {
 @injectable()
 export class LanguageHelper implements ILanguageHelper {
 
-  private translations: { [key: string]: string } = {
+  private translations: Record<string, string> = require('./../../language/sv.json');
+  /*{
     cancel: 'Avbryt',
     loading: 'Laddar',
-  };
+  };*/
 
   get(key: string): string {
     if (this.translations[key]) {

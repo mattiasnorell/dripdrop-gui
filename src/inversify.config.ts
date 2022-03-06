@@ -11,6 +11,7 @@ import { IModalHelper, ModalHelper } from '_services/helpers/modalHelper';
 import { IUrlHelper, UrlHelper } from '_services/helpers/urlHelper';
 import { ILocalStorageHelper, LocalStorageHelper } from '_services/helpers/localStorageHelper';
 import { ILanguageHelper, LanguageHelper } from '_services/helpers/languageHelper';
+import { SensorsService, ISensorsService } from '_services/connectors/sensorsService';
 
 export default function buildContainer(): void {
     // Helpers
@@ -27,4 +28,5 @@ export default function buildContainer(): void {
     container.addTransient<IValveService>(ValveService);
     container.addTransient<ISystemService>(SystemService);
     container.addTransient<ITimersService>(TimersService);
+    container.addTransient<ISensorsService>(SensorsService);
 }

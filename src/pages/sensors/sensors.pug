@@ -3,11 +3,11 @@ layout()
         div(class="mb-4")
             h1(class="text-xl font-bold") Sensorer
 
-        div(class="bg-white p-4 rounded-lg")
+        div(class="bg-white rounded-lg")
             table(class="table table-auto w-full")
                 tbody()
-                    tr(v-for="(valve, index) in valves")
-                        td(class="border-b border-gray-200 last:border-none py-2")  Sensor {{ valve }}
-                        td(class="border-b border-gray-200 last:border-none py-2 text-right") 
-                            span() {{valve + 19}}
-                            span() &deg;
+                    tr
+                        td(class="border-b border-gray-200 py-2")  Temperatur
+                        td(class="border-b border-gray-200 py-2 text-right") 
+                            span() {{ temperature }}
+                            span(class="ml-1") c&deg;
