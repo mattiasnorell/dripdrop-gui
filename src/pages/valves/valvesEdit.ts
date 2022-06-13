@@ -49,8 +49,7 @@ export default class ValvesEdit extends Vue {
         valveId: 0,
         fromHour: 0,
         fromMinute: 0,
-        toHour: 0,
-        toMinute: 0,
+        duration: 0,
         days: []
     };
 
@@ -91,23 +90,23 @@ export default class ValvesEdit extends Vue {
     }
 
     public get lastRunStart() {
-        if(!this.valve?.lastRunStart || this.valve?.lastRunStart === 0){
+        if (!this.valve ?.lastRunStart || this.valve ?.lastRunStart === 0) {
             return 'Aldrig startad';
         }
 
-        return this.$options.filters?.dateTime(new Date((this.valve?.lastRunStart ?? 0) * 1000));
+        return this.$options.filters ?.dateTime(new Date((this.valve ?.lastRunStart ?? 0) * 1000));
     }
 
     public get lastRunEnd() {
-        if(!this.valve || this.valve.lastRunStart === 0){
+        if (!this.valve || this.valve.lastRunStart === 0) {
             return '';
         }
 
-        if(this.valve.lastRunEnd < this.valve.lastRunStart){
+        if (this.valve.lastRunEnd < this.valve.lastRunStart) {
             return 'Ej avslutad';
         }
 
-        return this.$options.filters?.dateTime(new Date((this.valve?.lastRunEnd ?? 0) * 1000));
+        return this.$options.filters ?.dateTime(new Date((this.valve ?.lastRunEnd ?? 0) * 1000));
     }
 
     private async loadTimer(): Promise<any> {
@@ -140,7 +139,7 @@ export default class ValvesEdit extends Vue {
         const duration = window.prompt('Timers längd i minuter');
 
         if (duration) {
-            await this._timersService.startTimer(this.id, parseInt(duration) * 60);
+            await this._timersService.startTimer(this.id, parseInt(duration));
         }
     }
 
@@ -164,15 +163,15 @@ export default class ValvesEdit extends Vue {
     }
 
     private async onAddSchedule(): Promise<void> {
-        if (this.newSchduleItem.fromHour >= this.newSchduleItem.toHour && this.newSchduleItem.fromMinute >= this.newSchduleItem.toMinute) {
-            alert('Fråntid kan inte vara senare än tilltid');
-            return;
-        }
+        /* if (this.newSchduleItem.fromHour >= this.newSchduleItem.toHour && this.newSchduleItem.fromMinute >= this.newSchduleItem.toMinute) {
+             alert('Fråntid kan inte vara senare än tilltid');
+             return;
+         }*/
 
         this.newSchduleItem.valveId = this.id;
 
-        await this._schedulesService.updateSchedule(this.id, this.newSchduleItem);
-        this.newSchduleItem.days = [false,false,false,false,false,false,false];
+        await this._schedulesService.updateSchedule(this.newSchduleItem);
+        this.newSchduleItem.days = [false, false, false, false, false, false, false];
 
         await this.loadSchedule();
     }
@@ -186,11 +185,5 @@ export default class ValvesEdit extends Vue {
     }
     private onUpdateFromMinute(input: number) {
         this.newSchduleItem.fromMinute = input;
-    }
-    private onUpdateToHour(input: number) {
-        this.newSchduleItem.toHour = input;
-    }
-    private onUpdateToMinute(input: number) {
-        this.newSchduleItem.toMinute = input;
     }
 }

@@ -20,9 +20,9 @@ layout()
             div(class="rounded-md bg-white")
                 div(class="w-full")
                     div(class="grid grid-cols-4 font-bold")
-                        div(class="py-1 text-left") Från 
-                        div(class="py-1 text-left") Till 
-                        div(class="py-1 text-left") Dagar 
+                        div(class="py-1 text-left") Start 
+                        div(class="py-1 text-left") Körs
+                        div(class="py-1 text-left") Dagar
                         
                         div(class="py-1") 
 
@@ -32,7 +32,7 @@ layout()
 
                     div(class="grid grid-cols-4" v-for="(item, index) in schedule")
                         div(class="py-1") {{ item.fromHour | addZeroToTime}}:{{ item.fromMinute | addZeroToTime}}
-                        div(class="py-1") {{ item.toHour | addZeroToTime}}:{{ item.toMinute | addZeroToTime}}
+                        div(class="py-1") {{ item.duration }} s
                         div(class="py-1")
                             span(class="mr-1" :class="{'text-gray-300': !item.days[1]}") M
                             span(class="mr-1" :class="{'text-gray-300': !item.days[2]}") T
@@ -57,9 +57,7 @@ layout()
                             
                         
                             div(class="flex justify-center content-center mr-4")
-                                input-select(class="p-1" :options="hourValues" @onChange="onUpdateToHour")
-                                div(class="flex justify-center content-center ml-1 mr-1") :
-                                input-select(class="p-1" :options="minuteValues" @onChange="onUpdateToMinute")
+                                input(class="border px-2 py-1 rounded w-full" v-model="newSchduleItem.duration")
 
                             div(class="flex-1 py-2 flex justify-center content-center")
                                 button(@click="onAddSchedule")

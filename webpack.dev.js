@@ -15,8 +15,9 @@ module.exports = {
         path: path.resolve(__dirname, 'dist')
     },
     devServer: {
-        contentBase: wwwFolder,
-
+        static: {
+            directory: wwwFolder,
+        },
         port: 8000,
         hot: true,
         open: false,

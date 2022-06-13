@@ -6,7 +6,7 @@ import { ILocalStorageHelper } from '_services/helpers/localStorageHelper';
 
 export interface ISchedulesService {
     getSchedule(valveId: number): Promise<IScheduleItem[]>;
-    updateSchedule(valveId: number, scheduleItem: IScheduleItem): Promise<boolean>;
+    updateSchedule(scheduleItem: IScheduleItem): Promise<boolean>;
     deleteSchedule(scheduleId: number): Promise<boolean>;
     deleteAllSchedules(): Promise<boolean>;
 }
@@ -21,7 +21,7 @@ export class SchedulesService extends HttpFactory implements ISchedulesService {
         return await this.$get<IScheduleItem[]>(`${url}/schedule/list`);
     }
 
-    public async updateSchedule(valveId: number, scheduleItem: IScheduleItem): Promise<boolean> {
+    public async updateSchedule(scheduleItem: IScheduleItem): Promise<boolean> {
         const url = this._localStorageHelper.read<string>('apiPath') ?? 'http://dripdrop.local';
         return await this.$post(`${url}/schedule/add`, { ...scheduleItem });
     }
